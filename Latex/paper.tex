@@ -43,6 +43,10 @@
 \usepackage{algorithm}
 \usepackage{algorithmicx}
 \usepackage{kotex}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{url}
+\usepackage[export]{adjustbox}
+
 %% The amsthm package provides extended theorem environments
 %% \usepackage{amsthm}
 
@@ -100,22 +104,22 @@
 %%             postcode={},
 %%             state={},
 %%             country={}}
-\author{Ha Yoon Song$^{\ast}$ and Jae Ho Lee}
-\address{Department of Computer Engineering, Hongik University, 94 Wausan-ro,\\ Mapo-gu, Seoul, South Korea}            
+
+\author{Ha Yoon Song\corref{mycorrespondingauthor}}\ead{hayoon@hongik.ac.kr}
+\author{Jae Ho Lee}\ead{wogh6860@gmail.com }
+\address{Department of Computer Engineering, Hongik University,\\ 94 Wausan-ro, Mapo-gu, Seoul, South Korea}            
 \cortext[mycorrespondingauthor]{Corresponding author}
-\ead{hayoon@hongik.ac.kr}
 
 \begin{abstract}
 %% Text of abstract
 %맵 매칭은 오차가 있는 이동데이터의 실제 위치를 추론하는 기술로, 이동데이터의 핵심 전처리 기술이다. 다양한 맵 매칭 알고리즘 중 은닉 마코브 모델(Hidden Markov Model)을 이용한 맵 매칭이 주목되었다. 하지만 Hidden Markov Model(HMM) 모델은 시계열 데이터의 종속성을 과하게 단순화 시킨다는 문제점이 존재한다. 따라서 다양한 일부 상황들에 대해서 잘못된 매칭 결과를 추론하는 경향을 보인다. 예를 들어 도심지역과 같은 복잡한 도로관계나 이동패턴을 보이는 경우나, 큰 관측 에러와 셈플링 간격 등은 매칭을 더욱 어렵게 만든다. 이에 본 논문은 HMM의 가정을 보완해 새로운 알고리즘, trendHMM 맵 매칭을 제안한다. 해당 알고리즘은 매칭하는 데이터를 포함해 이웃한 데이터들의 움직임을 매칭에 반영하여 더 넓은 범위의 종속성을 고려한다. 그리고 실험을 통해서 다양한 환경의 여러 geopositioning 데이터에 대해서 trendHMM 맵 매칭이 기존의 HMM 맵 매칭보다 더 정확한 결과를 추론함을 보였다.
-With the advancement of geopositioning systems and mobile devices, many research with geopositioning data are currently ongoing.
-Along the research applications, map matching is a technology that infers the actual position of error-prone trajectory data. It is a core preprocessing technique for trajectory data. Among various map matching algorithms, map matching using Hidden Markov Model (HMM) has gained high attention. However, the HMM model simplifies the dependency of time series data excessively, which leads to inferring incorrect matching results for various situations. 
+With the advancement of geopositioning systems and mobile devices, \textcolor{black}{much} research with geopositioning data are currently ongoing.
+Along \textcolor{black}{with} the research applications, map matching is a technology that infers the actual position of error-prone trajectory data. It is a core preprocessing technique for trajectory data. Among various map matching algorithms, map matching using Hidden Markov Model (HMM) has gained high attention. However, the HMM model simplifies the dependency of time series data excessively, which leads to inferring incorrect matching results for various situations. 
 For example, complex road relationships or movement patterns, such as in urban areas, or serious observation errors and sampling intervals make matching more difficult. In this research, we propose a new algorithm called trendHMM map matching, which complements the assumptions of HMM. 
-This algorithm considers a wider range of dependencies of geopositioning data by incorporating the movements of neighboring data into the matching process. For this purpose, the concept of window containing adjacent geoposioning data is introduced. 
-Thus trendHMM can utilize relationship among continuous geopositioning data and showed considerable enhancement over HMM-based algorithm.
+This algorithm considers a wider range of dependencies of geopositioning data by incorporating the movements of neighboring data into the matching process. For this purpose, the concept of \textcolor{black}{the} window containing adjacent geoposioning data is introduced. 
+Thus trendHMM can utilize \textcolor{black}{relationships} among continuous geopositioning data and showed considerable enhancement over HMM-based algorithm.
 Through experiments, we demonstrated that trendHMM map matching provides more accurate results than the existing HMM map matching for various environments and geopositioning data sets.
-Our trendHMM algorithm shows up to 17.58\% of performance enhancement comparing to HMM based one in terms of Route Mismatch Fraction. 
-
+Our trendHMM algorithm shows up to 17.58\% of performance enhancement \textcolor{black}{compared} to HMM based one in terms of Route Mismatch Fraction.
 \end{abstract}
 
 %%Graphical abstract
@@ -162,19 +166,17 @@ This approach involves depicting the connectivity between roads as a graph and i
 The HMM-based map matching algorithm, first introduced by Newson and Krum \cite{newson2009hidden}, has been widely utilized in research due to its performance and robustness. Particularly, it is known for its excellent performance with data having sampling intervals of less than 30 seconds. However, the existing HMM-based map matching approach oversimplifies the problem. One fundamental issue is that it considers the data at time $t$ to be dependent only on the data at time $t-1$. Therefore, the existing HMM-based map matching approach yields inaccurate results for data with large errors or sampling intervals, as well as for areas with complex road networks such as urban areas. To overcome these limitations, there have been studies utilizing high-order HMMs that consider time points earlier than $t-1$, such as \cite{secondHMM1, secondHMM2}. However, the computational cost significantly increases as the dimensionality increases, preventing the extension of the model beyond second order. Therefore, instead of simply increasing dimensions, we considered the dependencies among various data by grouping multiple data points to account for the movement trend in the dataset, without explicitly expanding the dimensionality. In this research, we propose the trendHMM map matching algorithm, which complements the existing HMM-based map matching algorithm by considering a wider range of dependencies. This algorithm takes into account the "trend," which represents broader movements by grouping the matching data and neighboring data. By considering the trend, we were able to address the issues of dependency and dimensionality increase that the conventional approach had. Through experiments using various geopositioning data, we confirm that the trendHMM map matching algorithm yields more accurate results than the existing HMM map matching approach. 
 	Furthermore, we performed a detailed comparison between trendHMM and the well-known HMM-based map matching algorithm, which is a representative map matching algorithm, both with and without preprocessing. This allowed us to make a precise comparison between trendHMM and HMM. The results of this comparison can be found in subsection~\ref{sec:sec4:sec3}. 
 	\\The key contributions of this research are as follows: 
-	\emph{ 
 	\begin{itemize}
 		\item It expands the dependency between data by reflecting the movement trend of data.
 		\item It demonstrates good performance without the need for data preprocessing, unlike conventional HMM-based algorithms.
 		\item It exhibits similar time and space complexity as conventional HMM-based algorithms, but achieves better performance.
 	\end{itemize}
-}
-\emph{The contents of this research paper is as follows: Section~\ref{sec:sec2} discusses about research results related with our topic. 
+	The contents of this research paper \textcolor{black}{are} as follows: Section~\ref{sec:sec2} discusses about research results related with our topic. 
 	In section~\ref{sec:sec3}, a new algorithm developed in this paper, trendHMM, will be explained. As well, we will discuss existing map matching algorithm based on HMM as a basis of our algorithm along with terminology used in the research paper. 
 	%% 해당 알고리즘의 한계와 이를 보완한 새로운 알고리즘 trendHMM을 설명한다. 
 	Section~\ref{sec:sec4} will show the experimental results, both for HMM-based algorithms and trendHMM algorithm as well as comparison of results of both algorithms.
 	%%각각에 대해서 실험을 수행하여 결과값을 비교한다. 마지막으로 
-	Final section~\ref{sec:sec5} will conclude this research and discuss about possible future researches.}
+	Final section~\ref{sec:sec5} will conclude this research and discuss about possible future researches.
 	%%에서 연구에 대한 결론과 추후 연구에 대한 방향성을 제시한다.}
 
 
@@ -191,9 +193,9 @@ The HMM-based map matching algorithm, first introduced by Newson and Krum \cite{
 According to the map matching survey research \cite{chao2020survey}, map matching algorithms can be broadly classified into four categories based on the applied techniques: Similarity Model, Candidate-Evolving Model, Scoring Model, and State-Transition Model.
 The Similarity Model infers the closest road geometrically and topologically. In other words, it matches the trajectory data to the road that is closest in terms of shape. Since the moving object always travels on the road network and cannot leap from one segment to another, the measured geolocation series closely resembles the actual path on the map. This model generally demonstrates high efficiency, but it exhibits lower accuracy when dealing with data with large sampling intervals or errors, or in complex road scenarios.
 
-%\emph{본 연구와 관련된 다른 서베이가 존재한다~\cite{jiang2022driving}. 여기에서, 기존의 맵 매칭 알고리즘의 모델들을 분류하고, review하였다. 앞서 말한 Similarity Model, Candidate-Evolving Model, Scoring Model, State-Transition Model 등이  역시 포함되어 있으며, 우리의 연구는 State-Transition Model에 해당한다. 
-%이 외에도 맵 매칭과 관련한 다양한 연구 결과들은 다음과 같다.}
-\emph{There exists another related survey to our study~\cite{jiang2022driving}. In this survey, the authors classified and reviewed existing map matching algorithms. The previously mentioned Similarity Model, Candidate-Evolving Model, Scoring Model, State-Transition Model, etc., are also included, and our research falls within the State-Transition Model category. In addition to this, various research results related to map matching include the following.}
+%본 연구와 관련된 다른 서베이가 존재한다~\cite{jiang2022driving}. 여기에서, 기존의 맵 매칭 알고리즘의 모델들을 분류하고, review하였다. 앞서 말한 Similarity Model, Candidate-Evolving Model, Scoring Model, State-Transition Model 등이  역시 포함되어 있으며, 우리의 연구는 State-Transition Model에 해당한다. 
+%이 외에도 맵 매칭과 관련한 다양한 연구 결과들은 다음과 같다.
+There exists another related survey to our study~\cite{jiang2022driving}. In this survey, the authors classified and reviewed existing map matching algorithms. The previously mentioned Similarity Model, Candidate-Evolving Model, Scoring Model, State-Transition Model, etc., are also included, and our research falls within the State-Transition Model category. In addition to this, various research results related to map matching include the following.
 
 %\cite{quddus2007current}에선 Similarity Model을 이동데이터의 한 포인트마다 적용하는 point-to-curve와 이동데이터를 묶어 segment를 만든 후 적용하는 curve-to-curve matching \cite{wei2013map}, \cite{zhu2017trajectory}으로 분류 했다. 구체적으로 point-to-curve는 이동데이터를 가장 가까운 도로 네트워크의 edge와 매칭시키며, curve-to-curve는 이동데이터를 묶어 Tr segement를 구성한 뒤 가장 가까운 edge에 매칭시킨다. 가까움을 어떻게 정의 하느냐에 따라 여러 모델이 제안됐으며 대표적인 논문은 \cite{sharma2019map, cui2021hidden}가 있다.
 In a research \cite{quddus2007current}, the Similarity Model is further classified into two subcategories: point-to-curve matching, where the model is applied to each point of the trajectory data, and curve-to-curve matching, where the model is applied to segments formed by grouping the trajectory data. This classification is also mentioned in research results such as \cite{wei2013map} and \cite{zhu2017trajectory}.
@@ -230,11 +232,11 @@ However, these models assume a perfect road network representation. They assume 
 %한편, HMM의 markov property를 극복하기 위해 더 넓은 시간적인 종속성을 고려한 연구도 있었다. 대상의 움직임은 연속적인 시계열이므로 현재 상태와 이전 상태들간의 복잡한 시공간적 관계가 존재한다.즉, Markov property는 맵 매칭 문제를 과도하게 단순화한다. 이를 극복하기 위해 \cite{fu2021online}은 second order로 확장한 HMM 기반 맵 매칭 알고리즘을 제안했고, first-order 방식보다 더 좋은 성능을 보였다. 하지만 \cite{fu2021online}는 계산 효율성 문제로 2차원 이상으로 확장하지 못했다. 본 논문의 알고리즘은 전통적인 HMM 기반 맵 매칭과 동일한 시간복잡도를 가지며 secondHMM 보다 더 넓은 시간 종속성을 고려하는 방법이다.
 Indeed, there have been studies that consider a larger temporal dependency to overcome the Markov property in HMM. Since the movement of the target is a continuous time series, there exist complex spatio-temporal relationships between the current state and previous states. In other words, the Markov property overly simplifies the map matching problem. To address this, \cite{fu2021online} proposed a second order HMM-based map matching algorithm, which showed better performance than the first-order approach. However, \cite{fu2021online} did not extend the algorithm beyond two dimensions due to computational efficiency issues. Our aim is to provide an algorithm which maintains the same time complexity as traditional HMM-based map matching but incorporates a larger temporal dependency compared to second order HMM.
 
-%\emph{본 연구와 유사한 목적을 가진 연구 결과가 존재한다~\cite{hu2023amm}. GPS 관측 데이터의 오류를 최소한으로 줄일 수 있는 방법 등을 제안하고 있으며, 본 연구와는 다른 방식으로 모델을 구성하고 있다. 또한 online algorithm을 목표로 하고 있다는 점에서 본 연구와 차별된다.
-	%맵 매칭 알고리즘을 기반으로 추가 장비를 이용하여 응용하는 연구 결과도 존재한다 ~\cite{elkholy2023radar}. \cite{elkholy2023radar}에서, 맵 매칭 기술을 응용하는 사례를 보여준다. Autonomous navigation이 요구하는 높은 레벨의 정확도를 위해서 radar/INS integrated position을 맵 매칭 기술을 적용하여 수정한다. }
-\emph{There are research results that share similar objectives to our study~\cite{hu2023amm}. It proposes methods to minimize errors in GPS observation data, but its approach to model construction differs from ours. Moreover, its focus on online algorithms is apart from our study.
+%본 연구와 유사한 목적을 가진 연구 결과가 존재한다~\cite{hu2023amm}. GPS 관측 데이터의 오류를 최소한으로 줄일 수 있는 방법 등을 제안하고 있으며, 본 연구와는 다른 방식으로 모델을 구성하고 있다. 또한 online algorithm을 목표로 하고 있다는 점에서 본 연구와 차별된다.
+	%맵 매칭 알고리즘을 기반으로 추가 장비를 이용하여 응용하는 연구 결과도 존재한다 ~\cite{elkholy2023radar}. \cite{elkholy2023radar}에서, 맵 매칭 기술을 응용하는 사례를 보여준다. Autonomous navigation이 요구하는 높은 레벨의 정확도를 위해서 radar/INS integrated position을 맵 매칭 기술을 적용하여 수정한다. 
+There are research results that share similar objectives to our study~\cite{hu2023amm}. It proposes methods to minimize errors in GPS observation data, but its approach to model construction differs from ours. Moreover, its focus on online algorithms is apart from our study.
 	There are also research outcomes that utilize additional equipment over map matching algorithms.
-	 In \cite{elkholy2023radar}, this research demonstrate cases where map matching technology is applied. It introduced radar/INS integrated techniques with map matching techniques to achieve the high level of accuracy required for autonomous navigation.}
+	 In \cite{elkholy2023radar}, this research \textcolor{black}{demonstrates} cases where map matching technology is applied. It introduced radar/INS integrated techniques with map matching techniques to achieve the high level of accuracy required for autonomous navigation.
 	
 %본 논문은 전통적인 HMM 맵매칭을 보완한 통계적인 모델, trendHMM 맵 매칭을 제안한다. 따라서, 다른 맵 매칭 알고리즘보다는 가장 보편적인 맵매칭 알고리즘인 HMM 맵매칭을 중점적으로 비교를 하였다(\ref{sec:sec4:sec3}).직전 시점 뿐만 아니라 더 넓은 시간적 종속성을 고려하기 위해, trendHMM 맵 매칭은 관심있는 포인트 기준으로 몇 개의 데이터들을 묶어 window를 구성한다. window 내부에 대표 포인트들을 뽑아 더 넓게 이동하는 새로운 $Tr_{new}$를 구성한다. $Tr_{new}$를 맵 매칭하는 과정에서 생성된 가중치를 추가적으로 반영해 더 넓은 범위의 움직임, 이동 트렌드를 반영한다. trendHMM은 window의 크기로 시간적 종속성을 조절 할 수 있으며, window 크기가 변화해도 HMM 방식과 동일한 시간 복잡도를 제공한다. 또한, 외부적인 요소 없이 순수한 통계적인 방식의 알고리즘이므로, map inference 문제에 더 좋은 성능을 달성할 수 있으리라 기대한다.
 We proposes a statistical model called trendHMM map matching, which complements traditional HMM map matching. 
@@ -243,9 +245,7 @@ We primarily focused on comparing the most common map matching algorithm, Hidden
 \section{An Enhanced Version of HMM based Map Matching Algorithm}
 \label{sec:sec3}
 
-\emph{
 In this section we have to define terminology used in this paper. Then, we will explain basics of existing HMM based map matching algorithm as a basis of our algorithm, with its limitation and point of advancement. The core of this section is subsection~\ref{sec:sec3:sec4} which explains trendHMM algorithm on the basis of previous subsections in this section.
-}
 
 \subsection{Terminology}
 \label{sec:sec3:sec1}
@@ -298,9 +298,11 @@ In Equation \ref{eq:eq1}, $dist$ represents the distance between $g(t)$ and $C_{
 	\centering
 	\subfloat[Example of $C_{g(t).p}$]{
 		\includegraphics[height=0.25\textheight]{images/fig1a}
+		\label{fig:fig1:a}
 	}
 	\subfloat[Example of $spdist, edist$ calculated by $g(t), g(t+1)$ and $C_{g(t)}.p,  C_{g(t+1)}.p$]{
 		\includegraphics[height=0.25\textheight]{images/fig1b}
+		\label{fig:fig1:b}
 	}
 	\caption{Typical Operation of Map Matching Algorithm based on HMM}
 	\label{fig:fig1}
@@ -395,9 +397,11 @@ And (b) depicts a situation that can occur in densely populated urban areas. Sim
 	\centering
 	\subfloat[A case with large sampling intervals]{
 		\includegraphics[height=0.25\textheight]{images/fig2a}
+		\label{fig:fig2:a}
 	}
 	\subfloat[A case with reverse movement]{
 		\includegraphics[height=0.25\textheight]{images/fig2b}
+		\label{fig:fig2:b}
 	}
 	\caption{Example of Erroneous Matching by HMM based Map Matching Algorithm}
 	\label{fig:fig2}
@@ -409,9 +413,11 @@ And (b) depicts a situation that can occur in densely populated urban areas. Sim
 	\centering
 	\subfloat[A movement trend of vehicle]{
 		\includegraphics[width=0.25\textheight]{images/fig3a.jpg}
+		\label{fig:fig3:a}
 	}
 	\subfloat[A movement trend of pedestrian]{
 		\includegraphics[width=0.25\textheight]{images/fig3b.jpg}
+		\label{fig:fig3:b}
 	}
 	\caption{Raw Trend Examples: geolocation data (blue dot) and movement trend (red line)}
 	\label{fig:fig3}
@@ -442,9 +448,11 @@ The specific method for calculating $W_{trend}$ for candidate $C_{g(t)}$ is as f
 	\centering
 	\subfloat[Example of using window (red box) to create $Tr_{new}$, which is composed by $g(out), lmid, g(t), rmid$ (red dot). ]{
 		\includegraphics[height=0.25\textheight]{images/fig4a.jpg}
+		\label{fig:fig4:a}
 	}
 	\subfloat[Example of $Tr_{new}$ and $Tr_{out}$]{
 		\includegraphics[height=0.25\textheight]{images/fig4b.jpg}
+		\label{fig:fig4:b}
 	}
 	\caption{Examples of TrendHMM Algorithm Operations}
 	\label{fig:fig4}
@@ -455,7 +463,7 @@ The specific method for calculating $W_{trend}$ for candidate $C_{g(t)}$ is as f
 %그림 \ref{fig:fig4}에서 $Tr_{out}$은 기존 trajectory에서 $g(out)$까지의 데이터들로 구성한 trajectory이다.
 %다음으로 생성된 $Tr_{new}$, $Tr_{out}$을 이용해 $W_{trend}(C_{g(t)})$를 계산한다. 이는 수식 \ref{eq:eq6}와 같다.
 After obtaining the centroid $lmid$ for the data points preceding $g(t)$, the same procedure is applied to the subsequent data points to obtain the centroid $rmid$. Then, as illustrated in Figure \ref{fig:fig4} (b), we connect $g(out)$, $lmid$, $g(t)$, and $rmid$ to create a new trajectory $Tr_{new}$.
-$g(out)$ represents the data point outside the window, and its corresponding $out$ value is determined as $max(0, t-w+1)$, \emph{ where w is window size.} By considering the centroids, $Tr_{new}$ incorporates the movement trend more robustly, even in the presence of errors.
+$g(out)$ represents the data point outside the window, and its corresponding $out$ value is determined as $max(0, t-w+1)$, where w is window size. By considering the centroids, $Tr_{new}$ incorporates the movement trend more robustly, even in the presence of errors.
 In Figure \ref{fig:fig4}, $Tr_{out}$ represents a trajectory constructed from the original trajectory up to $g(out)$.
 Finally, the generated $Tr_{new}$ and $Tr_{out}$ are used to calculate $W_{trend}(C_{g(t)})$ according to Equation \ref{eq:eq6}.
 \begin{equation} \label{eq:eq6}
@@ -525,13 +533,12 @@ For trendHMM, each geolocation requires an additional map matching for $Tr_{new}
 Therefore, we can conclude that the time complexity of both algorithms are the same. 
 
 
-\emph{For the spatial complexity, both HMM and trendHMM have the same spatial complexity, which is $O(L)$, where $L$ represents the number of candidate spatial objects for the next step.
-	Here, $L$ is variable meaning the length of trajectory.
+For the spatial complexity, both HMM and trendHMM have the same spatial complexity, which is $O(L)$, where $L$ represents the number of candidate spatial objects for the next step.
+	Here, $L$ is a variable meaning the length of trajectory.
 	Regardless of window size, two major points are generated for map matching one point.
 	Algorithm~\ref{alg:trendViterbi} generates two more CDS during the process.
 	Thus, we can conclude the space complexity of trendHMM algorithm is $O(L + 2L) = O(L)$.
 %%	 While executing the algorithm~\ref{alg:trendViterbi}, window size w is constant and is excluded by the definition of big O($\cdot$).
-}
 %%1. L은 변수입니다. 전체 CDS의 길이니까 Trajectory의 길이를 의미해서 그렇습니다.
 %%2. 공간복잡도는 동일하게 O(L)입니다. window size와 관계없이 항상 2개의 중점 좌표를 만들게 되고, 그 과정에서 한 좌표를 맵매칭하는게 추가적으로 2개의 CD를 만들게 됩니다. 모든 좌표를 매칭하는경우, 길이 2L을 추가적으로 연산하니 O(L + 2L) = O(L)입니다.
 
@@ -585,7 +592,28 @@ For efficiency purposes, we construct candidates by searching for road segments 
 The trendHMM algorithm proposed in this research requires an additional estimation of the window size, denoted as $W$. According to the algorithm in Section \ref{sec:sec3:sec4}, as the value of $W$ increases, the distance and time interval between the considered movement data points also increase. In other words, the range of temporal dependencies expands.
 \begin{figure}
 	\centering
-	\includegraphics[height=0.99\textwidth]{images/fig5white_0}
+	\subfloat[Sampling Interval : 10]{
+		\includegraphics[width=0.5\textheight, valign=t]{images/trendHMM_unpreprocessing_only_10.png}
+		\label{fig:fig5:a}
+	}
+	\quad
+	\subfloat[Sampling Interval : 20]{
+		\includegraphics[width=0.4\textheight, valign=t]{images/trendHMM_unpreprocessing_only_20.png}
+		\label{fig:fig5:b}
+	}
+	\subfloat[Sampling Interval : 30]{
+		\includegraphics[width=0.4\textheight, valign=t]{images/trendHMM_unpreprocessing_only_30.png}
+		\label{fig:fig5:c}
+	}
+	\quad
+	\subfloat[Sampling Interval : 60]{
+		\includegraphics[width=0.4\textheight, valign=t]{images/trendHMM_unpreprocessing_only_60.png}
+		\label{fig:fig5:d}
+	}
+	\subfloat[Sampling Interval : 120]{
+		\includegraphics[width=0.4\textheight, valign=t]{images/trendHMM_unpreprocessing_only_120.png}
+		\label{fig:fig5:e}
+	}
 	\caption{$RMF$ Values with respect to Window Size W}
 	\label{fig:fig5}
 \end{figure}
@@ -599,10 +627,12 @@ In this experiment, we conducted experiments by varying the value of $W$ as show
 	\centering
 	\subfloat[The RMF values of trendHMM with and without Data Preprocessing]{
 		\includegraphics[width=0.7\textheight]{images/trendHMM_unpreprocessing_and_trendHMM_preprocessing_0.png}
+		\label{fig:fig6:a}
 	}
 \hfill
 	\subfloat[The RMF values of HMM with and without Data Preprocessing]{
 		\includegraphics[width=0.5\textheight]{images/HMM_unpreprocessing_and_HMM_preprocessing.png}
+		\label{fig:fig6:b}
 	}
 	\caption{
 		The RMF values of trendHMM and HMM with and without Data Preprocessing}
@@ -611,13 +641,55 @@ In this experiment, we conducted experiments by varying the value of $W$ as show
 
 \begin{figure}
 	\centering
-	\includegraphics[height=0.99\textwidth]{images/trendHMM_unpreprocessing_and_HMM_unpreprocessing_0.png}
+	\subfloat[Sampling Interval : 10]{
+		\includegraphics[width=0.5\textheight, valign=t]{images/trendHMM_unpreprocessing_and_HMM_unpreprocessing_10.png}
+		\label{fig:fig7:a}
+	}
+	\quad
+	\subfloat[Sampling Interval : 20]{
+		\includegraphics[width=0.4\textheight, valign=t]{images/trendHMM_unpreprocessing_and_HMM_unpreprocessing_20.png}
+		\label{fig:fig7:b}
+	}
+	\subfloat[Sampling Interval : 30]{
+		\includegraphics[width=0.4\textheight, valign=t]{images/trendHMM_unpreprocessing_and_HMM_unpreprocessing_30.png}
+		\label{fig:fig7:c}
+	}
+	\quad
+	\subfloat[Sampling Interval : 60]{
+		\includegraphics[width=0.4\textheight, valign=t]{images/trendHMM_unpreprocessing_and_HMM_unpreprocessing_60.png}
+		\label{fig:fig7:d}
+	}
+	\subfloat[Sampling Interval : 120]{
+		\includegraphics[width=0.4\textheight, valign=t]{images/trendHMM_unpreprocessing_and_HMM_unpreprocessing_120.png}
+		\label{fig:fig7:e}
+	}
 	\caption{The $RMF$ values for trendHMM and HMM, all without Preprocessing}
 	\label{fig:fig7}
 \end{figure}
 \begin{figure}
 	\centering
-	\includegraphics[height=0.99\textwidth]{images/trendHMM_unpreprocessing_and_HMM_preprocessing_0.png}
+	\subfloat[Sampling Interval : 10]{
+		\includegraphics[width=0.5\textheight, valign=t]{images/trendHMM_unpreprocessing_and_HMM_preprocessing_10.png}
+		\label{fig:fig8:a}
+	}
+	\quad
+	\subfloat[Sampling Interval : 20]{
+		\includegraphics[width=0.4\textheight, valign=t]{images/trendHMM_unpreprocessing_and_HMM_preprocessing_20.png}
+		\label{fig:fig8:b}
+	}
+	\subfloat[Sampling Interval : 30]{
+		\includegraphics[width=0.4\textheight, valign=t]{images/trendHMM_unpreprocessing_and_HMM_preprocessing_30.png}
+		\label{fig:fig8:c}
+	}
+	\quad
+	\subfloat[Sampling Interval : 60]{
+		\includegraphics[width=0.4\textheight, valign=t]{images/trendHMM_unpreprocessing_and_HMM_preprocessing_60.png}
+		\label{fig:fig8:d}
+	}
+	\subfloat[Sampling Interval : 120]{
+		\includegraphics[width=0.4\textheight, valign=t]{images/trendHMM_unpreprocessing_and_HMM_preprocessing_120.png}
+		\label{fig:fig8:e}
+	}
 	\caption{The $RMF$ values for trendHMM without Preprocessing versus HMM with Preprocessing}
 	\label{fig:fig8}
 \end{figure}
@@ -642,10 +714,12 @@ Next, we compared the non-preprocessed trendHMM with each HMM. Figure \ref{fig:f
 	\centering
 	\subfloat[	Map with the highest error.]{
 		\includegraphics[width=0.5\textheight]{images/track33_20.png}
+		\label{fig:fig9:a}
 	}
 \hfill
 	\subfloat[Map with the second highest error.]{
 		\includegraphics[width=0.5\textheight]{images/track46_20.png}
+		\label{fig:fig9:b}
 	}
 	\caption{%성능이 낮게 나온 데이터셋의 지도
 		A Mapping of the Geopositioning Dataset representing Unexpected Results }
@@ -662,13 +736,14 @@ However, in cases of a sampling interval of 20 sec and $W$ values of $[3, 4, 5]$
 		\hline
 		\textbf{Sampling Interval(s)} & \textbf{10} & \textbf{20} & \textbf{30} & \textbf{60} & \textbf{120} \\ 
 		\hline\hline
-		trendHMM\_with\\ \_preprocessing & {0.0918} & \textbf{0.0938} & {0.1083} & {0.1658} & {0.2491} \\ 
+		trendHMM\_with&  & & & & \\ \_preprocessing & {0.0918} & \textbf{0.0938} & {0.1083} & {0.1658} & {0.2491} \\ 
 		\hline
-		trendHMM\_without\\ \_preprocessing & \textbf{0.0880} & {0.0968} & \textbf{0.0980} & \textbf{0.1438}  & \textbf{0.2469} \\ 
+		trendHMM\_without&  & & & & \\ \_preprocessing & \textbf{0.0880} & {0.0968} & \textbf{0.0980} & \textbf{0.1438}  & \textbf{0.2469} \\ 
 		\hline
-		HMM\_with\\ \_preprocessing & {0.1053} & {0.0956} & {0.1189} & {0.1707}  & {0.2678} \\ 
+		HMM\_with&  & & & & \\ 
+		\_preprocessing & {0.1053} & {0.0956} & {0.1189} & {0.1707}  & {0.2678} \\ 
 		\hline
-		HMM\_without\\ \_preprocessing & {0.1049} & {0.1463} & {0.1523} & {0.1846}  & {0.2969} \\ 
+		HMM\_without&  & & & & \\ \_preprocessing & {0.1049} & {0.1463} & {0.1523} & {0.1846}  & {0.2969} \\ 
 		\hline
 	\end{tabular}
 	\caption{Comparison of $RMF$ Values w.r.t. Various Sampling Intervals}
@@ -710,6 +785,23 @@ We proposed the trendHMM map matching method as an enhancement to the existing H
 The trendHMM is a method that purely relies on statistical modeling without considering external factors such as speed, heading, or road preferences. Therefore, it is expected to be more suitable for addressing the map inference problem of identifying unmapped roads. Future research is planned to further explore and address this aspect.
 %trendHMM에서 이동 trend 추출을 위해 고정적인 $W$값을 이용했다. $W$값이 너무 작다면 이동 trend를 제대로 반영하지 못한다. 반대로 크다면, 현재 움직임과 관련없는 광범위한 이동 trend를 반영하게 된다. 따라서 동적으로 적절한 $W$값을 얻기 위한 방법이 필요하다. 추후 연구에서 이동 데이터의 각도, 속도 등을 이용해 self-adaptive한 방법으로 윈도우 크기를 결정하는 방법도 연구할 예정이다.
 In the trendHMM, a fixed value of $W$ was used for extracting movement trends. If $W$ is too small, it may not properly capture the movement trend. On the other hand, if it is too large, it may incorporate irrelevant and extensive movement trend unrelated to the current motion. Therefore, a method for dynamically determining an appropriate $W$ value is needed. In future research, we plan to explore methods for self-adaptive window size determination using factors such as the angle and speed of movement data.
+
+\section{Data Availability}
+\label{sec:sec6}
+%% 실험에 활용된 코드 및 데이터는 다음 github repository에서 확인할 수 있습니다.
+Code and data used in the experiment can be found at the following github repository. 
+\url{https://github.com/Jaeho-99/map_matching.}
+
+\section{Author Contribution}
+\label{sec:sec7}
+\begin{itemize}
+	\item Ha Yoon Song, Ph.D.: Conceived and designed the experiments; Analyzed and interpreted the data; Contributed reagents, materials, analysis tools or data; Wrote the paper.
+	\item Jae Ho Lee: Performed the experiments; Analyzed and interpreted the data; Contributed reagents, materials, analysis tools or data; Wrote the paper.
+\end{itemize}
+
+\section{Declaration of interests}
+\label{sec:sec8}
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
 %% For citations use: 
 %%       \citet{<label>} ==> Jones et al. [21]
 %%       \citep{<label>} ==> [21]
